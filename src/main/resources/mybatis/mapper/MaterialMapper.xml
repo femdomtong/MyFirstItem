@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sz.lwt.dao.MaterialMapper">
+
+	<sql id="materialCloum">
+		matId,matName,matPrice,matNum,manufacturerId
+	</sql>
+	<!-- 传统分页 -->
+	<select id="showMaterial" resultMap="materialInfo" parameterType="map">
+		SELECT <include refid="materialCloum"/> from material 
+		<where>
+			<if test="columnName!=null and term!=null">
+				${columnName} like "%"#{term}"%"
+			</if>
+			<if test="losal!=null and hisal!=null" >
+				and matPrice between #{losal} and #{hisal}
+			</if>
+			<if test="mannameId!=null and mannameId!= ''">
+				and manufacturerId = #{mannameId}
+			</if>
+		</where> limit #{offset},#{pigeSize}
+	</select>
+	<!-- pagehelper -->
+	<select id="queryPagehelper" resultMap="materialInfo" parameterType="map">
+		SELECT <include refid="materialCloum"/> from material
+			<where>
+			<if test="columnName!=null and term!=null">
+				${columnName} like "%"#{term}"%"
+			</if>
+			<if test="losal!=null and hisal!=null" >
+				and matPrice between #{losal} and #{hisal}
+			</if>
+			<if test="mannameId!=null and mannameId!= ''">
+				and manufacturerId = #{mannameId}
+			</if>
+		</where>
+	</select>
+	
+	<resultMap type="material" id="materialInfo">
+		<id column="matId" property="matid"/>
+		<result column="matName" property="matname"/>
+		<result column="matPrice" property="matprice"/>
+		<result column="matNum" property="matnum"/>
+		<association column="manufacturerId" property="manufacturer" select="cn.sz.lwt.dao.ManufacturerMapper.queryManufacturerById">
+		</association>
+	</resultMap>
+	<!-- 批量删除 -->
+	<delete id="deleteMaterials" parameterType="int[]">
+		delete from material where matId in
+		<foreach collection="array" open="(" close=")" separator=","
+				 item="arr" index="index">
+			#{arr}
+		</foreach>
+	</delete>
+	
+	<!-- 修改前查询 -->
+	<select id="queryMaterialById" parameterType="int" resultMap="materialInfo">
+		select <include refid="materialCloum"/> from material where matId = #{value}
+	</select>
+	<!-- 修改 -->
+	<update id="updateMaterial" parameterType="material">
+		update Material 
+		<set>
+			<if test="matname!=null">matName=#{matname},</if>
+			<if test="matprice!=null">matPrice=#{matprice},</if>
+			<if test="matnum!=null">matNum=#{matnum},</if>
+		</set>
+		where matId=#{matid}
+	</update>
+	<!-- 查询总数据量 -->
+	<select id="queryTotal" resultType="int" parameterType="map">
+		select count(1) from material 
+		<where>
+			<if test="columnName!=null and term!=null">
+				${columnName} like "%"#{term}"%"
+			</if>
+			<if test="losal!=null and hisal!=null" >
+				and matPrice between #{losal} and #{hisal}
+			</if>
+			<if test="mannameId!=null and mannameId!= ''">
+				and manufacturerId = #{mannameId}
+			</if>
+		</where>
+	</select>
+	
+	
+</mapper>

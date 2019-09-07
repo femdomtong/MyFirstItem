@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sz.lwt.dao.ManagerMapper">
+	<!-- 登入 -->
+    <select id="login" parameterType="map" resultType="manager">
+    	select * from manager where uname = #{name} and upassword = #{pwd}
+    </select>
+	<!-- 注册 -->
+	<insert id="register" parameterType="manager">
+		insert into manager(uname,upassword,urealname,usex,uage) values(#{uname},#{upassword},#{urealName},#{usex},#{uage})
+	</insert>
+</mapper>
