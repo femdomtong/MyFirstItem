@@ -13,7 +13,7 @@ import cn.sz.lwt.service.MaterialService;
 public class MaterialServiceImpl implements MaterialService {
 	@Autowired
 	private MaterialMapper dao;
-	
+	//查询分页数据
 	public List<Material> showMaterial(Map<String,Object> map){
 		List<Material> materialList = dao.showMaterial(map);
 		return materialList;
@@ -26,11 +26,11 @@ public class MaterialServiceImpl implements MaterialService {
 	public Material queryMaterialById(Integer id) {
 		return dao.queryMaterialById(id);
 	}
-	
+	//查询总数据量
 	public Integer queryTotal(Map<String,Object> map) {
 		return dao.queryTotal(map);
 	}
-	
+	//修改
 	public void updateMaterial(Material material) {
 		dao.updateMaterial(material);
 	}
