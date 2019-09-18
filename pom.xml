@@ -76,7 +76,12 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
+        <!-- httpclient -->
+		<dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.7</version>
+    </dependency>
 
         <!-- 配置文件处理器,会有提示! -->
         <dependency>

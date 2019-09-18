@@ -13,4 +13,8 @@ public class PageController {
 	public String goShow() {
 		return "redirect:/mc/queryPagehelper";
 	}
+	@RequestMapping("goWeather")
+	public String goWeather() {
+		return "weatherInfo";
+	}
 }
